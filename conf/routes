@@ -1,0 +1,30 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+# Import Security routes
+GET     /auth/login                             MySecure.login
+GET     /auth/login/{type}                      MySecure.authenticateSocial
+POST    /auth/login                             MySecure.authenticate
+GET     /auth/logout                            MySecure.logout
+GET     /auth/signup                            MySecure.signup
+POST    /auth/register                          MySecure.register
+GET     /auth/confirmRegistration               MySecure.notConfirmedRegistration
+GET     /auth/sendConfirmationEmail             MySecure.sendConfirmationEmail
+GET     /auth/forgotPassword                    MySecure.forgotPassword
+POST    /auth/restorePassword                   MySecure.restorePassword
+GET     /auth/changeForgotPassword              MySecure.changeForgotPassword
+GET     /auth/passwordReset                     MySecure.passwordReset
+POST    /auth/changePassword                    MySecure.changePassword
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}

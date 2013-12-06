@@ -1,0 +1,8 @@
+#Set up database.
+
+drop database jasonwrath;
+create database jasonwrath character set utf8 collate utf8_general_ci;
+grant all privileges on jasonwrath.* to jasonwrath_user@localhost identified by '123' with grant option;
+SET NAMES utf8;
+
+use jasonwrath;
