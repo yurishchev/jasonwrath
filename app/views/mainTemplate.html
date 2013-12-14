@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="${_response_encoding}">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Styles -->
+        #{stylesheet 'bootstrap.css'/}
+        #{stylesheet 'main.css'/}
+        #{stylesheet 'theme.css'/}
+        #{get 'moreStyles' /}
+        <!-- For IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+    </head>
+    <body ng-app="jwApp" style="padding-top: 0px;">
+        <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser.
+            Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        #{include "header.html" /}
+        #{doLayout /}
+        #{include "footer.html" /}
+
+        #{script src:"vendor/jquery/jquery.js", charset:"${_response_encoding}" /}
+        #{script src:"vendor/bootstrap/bootstrap.js", charset:"${_response_encoding}" /}
+        #{script src:"vendor/angular/angular.js", charset:"${_response_encoding}" /}
+        #{script src:"vendor/angular/angular-resource.js", charset:"${_response_encoding}" /}
+        #{script src:"vendor/angular/angular-route.js", charset:"${_response_encoding}" /}
+        #{script src:"vendor/angular/angular-cookies.js", charset:"${_response_encoding}" /}
+        #{script src:"vendor/angular/angular-sanitize.js", charset:"${_response_encoding}" /}
+        #{script src:"controllers/controllers.js", charset:"${_response_encoding}" /}
+        #{script src:"directives/directives.js", charset:"${_response_encoding}" /}
+        #{script src:"services/services.js", charset:"${_response_encoding}" /}
+        #{script src:"app.js", charset:"${_response_encoding}" /}
+
+        #{get 'moreScripts' /}
+    </body>
+</html>

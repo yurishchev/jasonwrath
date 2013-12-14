@@ -1,4 +1,11 @@
-<div id="coming_soon">
+#{extends 'mainTemplate.html' /}
+#{set title:'Home' /}
+
+#{set 'moreScripts'}
+    #{script 'vendor/jquery/jquery.countdown.min.js'/}
+#{/set}
+
+<div id="coming_soon" ng-controller="CountDownCtrl">
     <div class="head">
         <div class="container">
             <div class="col-sm-6 text">
@@ -50,5 +57,3 @@
         </div>
     </div>
 </div>
-
-<script src="/public/javascripts/vendor/jquery/jquery.countdown.min.js" type="text/javascript"></script>

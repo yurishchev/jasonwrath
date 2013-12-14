@@ -3,7 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       Application.countDown
+GET     /about                                  Application.about
 
 # Import Security routes
 GET     /auth/login                             MySecure.login
