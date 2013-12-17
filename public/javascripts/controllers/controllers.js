@@ -12,18 +12,29 @@ controllers.controller('HeaderCtrl', ['$scope',
     }]);
 
 
-controllers.controller('LoginCtrl', ['$scope', '$log',
-    function ($scope, $log) {
-        $scope.items = ['item1', 'item2', 'item3'];
-
-        $scope.selected = {
-            item: $scope.items[0]
-        };
+controllers.controller('LoginCtrl', ['$scope', '$http',
+    function ($scope, $http) {
+        $scope.master = {};
 
         $scope.login = function () {
-            $log.info('Modal dismissed at: ' + $scope.selected.item);
-            $('#loginModal').modal('hide');
+            $http.post($('form[name=loginForm]').attr('action') + 'Dialog', $.param($scope.user)).
+                success(function (data, status) {
+                    if (data.members && data.members.errors) {
+                        $scope.errors = data.members.errors;
+                    } else {
+                        $('form[name=loginForm]').submit();
+                    }
+                }).
+                error(function (data, status) {
+                    $scope.errors = data || "Request failed";
+                });
         };
+
+        $('#loginModal').on('hidden.bs.modal', function (e) {
+            $scope.user = angular.copy($scope.master);
+            $scope.loginForm.$setPristine();
+            $scope.errors = null;
+        });
     }]);
 
 controllers.controller('CountDownCtrl', ['$scope',
@@ -31,13 +42,13 @@ controllers.controller('CountDownCtrl', ['$scope',
         var currentDate = new Date(),
             availiableExamples = {
                 set60daysFromNow: 60 * 24 * 60 * 60 * 1000,
-                set5minFromNow  : 5 * 60 * 1000,
-                set2secFromNow  : 2 * 1000
+                set5minFromNow: 5 * 60 * 1000,
+                set2secFromNow: 2 * 1000
             };
 
         function callback(event) {
             var $this = $(this);
-            $this.find('span#'+event.type).html(event.value);
+            $this.find('span#' + event.type).html(event.value);
         }
 
         $('div#clock').countdown(availiableExamples.set60daysFromNow + currentDate.valueOf(), callback);

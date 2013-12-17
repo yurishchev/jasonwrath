@@ -28,26 +28,27 @@ directives.directive('focus',
         };
     });
 
-directives.directive('passwordStrength',
+directives.directive('passwordStrength', ['$log',
     function() {
         return {
             require: 'ngModel',
             link: function(scope, elm, attrs, ctrl) {
                 ctrl.$parsers.unshift(function(viewValue) {
 
-                    scope.pwdValidLength = (viewValue && viewValue.length >= 8 ? 'valid' : undefined);
-                    scope.pwdHasLetter = (viewValue && /[A-z]/.test(viewValue)) ? 'valid' : undefined;
-                    scope.pwdHasNumber = (viewValue && /\d/.test(viewValue)) ? 'valid' : undefined;
+                    var pwdValidLength = viewValue && viewValue.length >= 6;
+                    var pwdHasLetter = viewValue && /[A-z]/.test(viewValue);
+                    var pwdHasNumber = viewValue && /\d/.test(viewValue);
 
-                    if(scope.pwdValidLength && scope.pwdHasLetter && scope.pwdHasNumber) {
-                        ctrl.$setValidity('pwd', true);
-                        return viewValue;
+                    if(pwdValidLength && pwdHasLetter && pwdHasNumber) {
+                        scope.pwdStrength = "strong";
+                    } else if (pwdValidLength && (pwdHasLetter || pwdHasNumber)) {
+                        scope.pwdStrength = "medium";
                     } else {
-                        ctrl.$setValidity('pwd', false);
-                        return undefined;
+                        scope.pwdStrength = "weak";
                     }
-
+                    //ctrl.$setValidity('userpassword', true);
+                    return viewValue;
                 });
             }
     };
-});
+}]);

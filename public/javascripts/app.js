@@ -10,7 +10,8 @@ var app = angular.module('jwApp', [
     'jwApp.controllers'
 ]);
 
-app.config(['$routeProvider', function ($routeProvider) {
+app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
     $routeProvider.
         when('/', {
             controller: 'CountDownCtrl',

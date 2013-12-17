@@ -1,0 +1,84 @@
+#{extends 'mainTemplate.html' /}
+#{set 'title'}&{'title'} - &{'menu.login'}#{/set}
+
+<div class="position-pad-rel pos02-p01"></div>
+
+
+<div class="pad02-registration pad-round">
+
+    <div class="bg-view bg-view-reg">
+
+        #{if flash.error}
+        <div class="alert-message block-message error">
+            <div class="alert-actions">
+            ${flash.error}
+            </div>
+        </div>
+        #{/if}
+
+        <h2 id="title">&{'login.header'}</h2>
+
+        #{if !session.contains(controllers.Auth.COOKIE_AUTH_ACCESSTOKEN)}
+        <div class="clearfix">
+            <p>&{'securesocial.clickOnYourAccount'}</p>
+            <p>
+                #{list items: providers, as: 'provider'}
+                    #{if provider.type != securesocial.provider.ProviderType.userpass}
+                        <a href="@{Auth.authenticateSocial(provider.type.toString().toLowerCase())}">
+                            <img src="@{'/public/images/providers/'}/${provider.type.toString().toLowerCase()}.png" title="${provider.type}"/></a>
+                    #{/if}
+                #{/list}
+            </p>
+        </div>
+        #{/if}
+        #{else}
+            <p>&{'login.map.account'}</p>
+        #{/else}
+
+        #{form @Auth.authenticate(), id:'loginForm' }
+
+        <input name="currentURL" type="hidden" value="${request.url}"/>
+        <div class="input-long">
+            <label for="username">&{'email'}</label>
+            <input class="input-long-field" name="username" id="username" type="text" maxlength="100"
+                   value="${flash.username}"/>
+            <span></span>
+
+            <div class="error">#{error 'username' /}</div>
+        </div>
+
+        <div class="position-pad-rel" style="height: 25px;"></div>
+
+        <div class="input-long">
+            <label for="password">&{'password'}</label>
+            <input class="input-long-field" name="password" id="password" type="password" maxlength="30"
+                   autocomplete=off value="${flash.password}"/>
+            <span></span>
+
+            <div class="error">#{error 'password' /}</div>
+        </div>
+
+        <div class="input-long">
+            <input class="input-short" name="remember" id="remember" type="checkbox" /> &{'secure.remember'}
+            <span></span>
+        </div>
+
+        <div class="position-pad-rel" style="height: 40px;"></div>
+        <div id="loginButton" class="round-button-large button-blue pos02-b01"><span>&{'secure.signin'}</span></div>
+        <div class="position-pad-rel" style="height: 40px;"></div>
+
+        #{/form}
+
+        <br><br>
+        <span class="text-header"><a href="@{Auth.signup(true)}">&{'menu.registration'}</a></span>
+
+        <div class="horizontal-adjusted"><span class="text-header"><a href="@{Auth.forgotPassword()}">&{'menu.forgot_password'}</a></span></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        initFormEvents("loginForm", "username", "loginButton");
+    });
+</script>

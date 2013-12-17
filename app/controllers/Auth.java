@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.gson.JsonObject;
 import jasonwrath.exception.ApplicationException;
 import jasonwrath.utils.AllowGuest;
 import models.SocialAccount;
@@ -27,7 +28,7 @@ public class Auth extends BaseController {
     private final static String COOKIE_REMEMBERME = "rememberme";
     private static final String ERROR = "error";
     private static final String SECURESOCIAL_AUTH_ERROR = "securesocial.authError";
-    private static final String ROOT = "/application/search";  // seems to be a good default url
+    private static final String ROOT = "/";  // seems to be a good default url
 
     public static final String ORIGINAL_URL = "originalUrl";
     public final static String COOKIE_AUTH_ACCESSTOKEN = "authAccessToken";
@@ -36,7 +37,7 @@ public class Auth extends BaseController {
     public static final String COOKIE_AUTH_EMAIL = "email";
     public static final String COOKIE_AUTH_NAME = "name";
 
-    @Before(unless = {"login", "authenticate", "authenticateSocial", "logout", "signup", "register",
+    @Before(unless = {"login", "authenticate", "authenticateJson", "authenticateSocial", "logout", "signup", "register",
             "forgotPassword", "restorePassword", "changeForgotPassword", "passwordReset", "changePassword"})
     static void checkAccess() throws Throwable {
         AllowGuest guest = getControllerInheritedAnnotation(AllowGuest.class);
@@ -131,12 +132,12 @@ public class Auth extends BaseController {
     // ~~~ Login
 
     public static void login(String... currentUrl) {
-        if (!flash.contains(ORIGINAL_URL) && currentUrl.length == 1) {
+        if (!flash.contains(ORIGINAL_URL) && currentUrl != null && currentUrl.length == 1) {
             flash.put(ORIGINAL_URL, currentUrl[0]);
         }
         checkRememberMeAndIfPresentAuthenticate();
         final Collection providers = ProviderRegistry.all();
-        renderTemplate("/auth/login.html", providers);
+        renderTemplate("/auth/loginDialog.html", providers);
     }
 
     static boolean checkRememberMeAndIfPresentAuthenticate() {
@@ -201,7 +202,7 @@ public class Auth extends BaseController {
         }
     }
 
-    public static void authenticate(@Required String username, String password, boolean remember)
+    public static void authenticate(@Required String username, @Required String password, boolean remember)
             throws Throwable {
         User user = User.connect(username, password);
         if (user == null || !user.checkPassword(password)) {
@@ -222,6 +223,24 @@ public class Auth extends BaseController {
         }
         clearSocialUserInfo();
         redirectToOriginalURL();
+    }
+
+    // Authentication via modal dialog and ajax call
+    public static void authenticateJson(@Required String username, @Required String password, boolean remember)
+            throws Throwable {
+        JsonObject obj = new JsonObject();
+        if (Validation.hasErrors()) {
+            obj.addProperty("errors", Messages.get("login.invalid.parameters"));
+            renderJSON(obj);
+            return;
+        }
+        User user = User.connect(username, password);
+        if (user == null || !user.checkPassword(password)) {
+            obj.addProperty("errors", Messages.get("login.error"));
+            renderJSON(obj);
+            return;
+        }
+        renderJSON(obj);
     }
 
     private static void setSocialUserInfo(SocialUser user) {

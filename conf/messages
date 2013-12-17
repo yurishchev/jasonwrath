@@ -1,3 +1,12 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+login.title=Login
+login.label.username=User name
+login.label.username.placeholder=Enter user name (email)
+login.label.password=Password
+login.button.ok=Sign In
+login.button.cancel=Cancel
+validation.required=Required
+validation.email=Not valid email
+login.password.strength=Password is
