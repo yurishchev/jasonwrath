@@ -1,0 +1,39 @@
+<div id="loginModal" class="modal fade" role="dialog" ng-controller="LoginCtrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Login Form</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" name="loginForm" role="form">
+                    <div class="form-group {{loginForm.username.$valid ? 'has-success' : 'has-error'}}">
+                        <label class="col-sm-3 control-label" for="username">User name (email)</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="username" name="username" placeholder="Enter user name (email)" ng-model="user.username" required>
+                            <span class="control-label" ng-show="loginForm.username.$error.required">Required!</span>
+                            <span class="control-label" ng-show="loginForm.username.$error.email">Not valid email!</span>
+                        </div>
+                    </div>
+                    <div class="form-group {{loginForm.userpassword.$valid ? 'has-success' : 'has-error'}}">
+                        <label class="col-sm-3 control-label" for="userpassword">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Password" ng-model="user.password" password-strength required>
+                            <span class="control-label" ng-show="loginForm.userpassword.$error.required">Required!</span>
+                        </div>
+                    </div>
+                <ul>
+                    <li ng-repeat="item in items">
+                        <a ng-click="selected.item = item">{{ item }}</a>
+                    </li>
+                </ul>
+                Selected: <b>{{ selected.item }}</b>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="login()">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

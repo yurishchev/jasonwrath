@@ -4,6 +4,10 @@ import play.mvc.Controller;
 
 public class Application extends Controller {
 
+    public static void index() {
+        countDown();
+    }
+
     public static void angular() {
         render();
     }
