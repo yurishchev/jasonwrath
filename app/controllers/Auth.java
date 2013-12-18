@@ -137,7 +137,7 @@ public class Auth extends BaseController {
         }
         checkRememberMeAndIfPresentAuthenticate();
         final Collection providers = ProviderRegistry.all();
-        renderTemplate("/auth/loginDialog.html", providers);
+        renderTemplate("/auth/login.html", providers);
     }
 
     static boolean checkRememberMeAndIfPresentAuthenticate() {
@@ -230,7 +230,7 @@ public class Auth extends BaseController {
             throws Throwable {
         JsonObject obj = new JsonObject();
         if (Validation.hasErrors()) {
-            obj.addProperty("errors", Messages.get("login.invalid.parameters"));
+            obj.addProperty("errors", Messages.get("validation.invalid.parameters"));
             renderJSON(obj);
             return;
         }
@@ -269,9 +269,9 @@ public class Auth extends BaseController {
         renderTemplate("/auth/signup.html", randomID);
     }
 
-    public static void register(@Required @Email String email,
-                                @Required @MinSize(6) String password,
-                                @Equals("password") String password2,
+    public static void register(@Required @Email String username,
+                                @Required String password,
+                                @Equals("password") String repeatPassword,
                                 @Required(message = "validation.required.captcha") String code,
                                 String randomID,
                                 @Required String name) throws Exception {
@@ -279,10 +279,12 @@ public class Auth extends BaseController {
         if (Validation.hasErrors()) {
             Validation.keep();
             params.flash();
+            flash.error(Messages.get("validation.invalid.parameters"));
             signup(false);
+            return;
         }
         try {
-            User user = User.create(email, password, name);
+            User user = User.create(username, password, name);
             if (session.get(COOKIE_AUTH_ACCESSTOKEN) != null) {
                 user.addSocialAccount(ProviderType.valueOf(session.get(COOKIE_AUTH_PROVIDER)), session.get(COOKIE_AUTH_ACCESSTOKEN));
             }

@@ -12,11 +12,14 @@ controllers.controller('HeaderCtrl', ['$scope',
     }]);
 
 
-controllers.controller('LoginCtrl', ['$scope', '$http',
+controllers.controller('LoginDialogCtrl', ['$scope', '$http',
     function ($scope, $http) {
         $scope.master = {};
 
         $scope.login = function () {
+            if ($scope.loginForm.$invalid) {
+                return;
+            }
             $http.post($('form[name=loginForm]').attr('action') + 'Dialog', $.param($scope.user)).
                 success(function (data, status) {
                     if (data.members && data.members.errors) {
@@ -35,6 +38,26 @@ controllers.controller('LoginCtrl', ['$scope', '$http',
             $scope.loginForm.$setPristine();
             $scope.errors = null;
         });
+    }]);
+
+controllers.controller('LoginCtrl', ['$scope',
+    function ($scope) {
+        $scope.login = function () {
+            if ($scope.loginForm.$invalid) {
+                return;
+            }
+            $('form[name=loginForm]').submit();
+        };
+    }]);
+
+controllers.controller('RegistrationCtrl', ['$scope',
+    function ($scope) {
+        $scope.register = function () {
+            if ($scope.registrationForm.$invalid) {
+                return;
+            }
+            $('form[name=registrationForm]').submit();
+        };
     }]);
 
 controllers.controller('CountDownCtrl', ['$scope',

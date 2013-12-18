@@ -1,0 +1,19 @@
+<html>
+<head></head>
+<body>
+<img width="124" height="52" src="@@{'/public/images/favicon.png'}"/>
+
+<h3>Hello ${user.name}!</h3>
+
+<p>
+    Welcome to JasonWrath!
+</p>
+
+<p>
+    Please confirm your registration by clicking on <a href="@@{Auth.confirmRegistration(user.confirmationUID)}">this
+    link</a>
+</p>
+Sincerely,<br>
+Share-Tour
+</body>
+</html>

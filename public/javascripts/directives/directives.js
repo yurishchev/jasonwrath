@@ -46,9 +46,31 @@ directives.directive('passwordStrength', ['$log',
                     } else {
                         scope.pwdStrength = "weak";
                     }
-                    //ctrl.$setValidity('userpassword', true);
+                    ctrl.$setValidity('passwordStrength', true);
                     return viewValue;
                 });
             }
     };
 }]);
+
+directives.directive("repeatPassword", function() {
+    return {
+        require: "ngModel",
+        link: function(scope, elem, attrs, ctrl) {
+            var otherInput = elem.inheritedData("$formController")[attrs.repeatPassword];
+
+            ctrl.$parsers.push(function(value) {
+                if(value === otherInput.$viewValue) {
+                    ctrl.$setValidity("repeatPassword", true);
+                    return value;
+                }
+                ctrl.$setValidity("repeatPassword", false);
+            });
+
+            otherInput.$parsers.push(function(value) {
+                ctrl.$setValidity("repeatPassword", value === ctrl.$viewValue);
+                return value;
+            });
+        }
+    };
+});

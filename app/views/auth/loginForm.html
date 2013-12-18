@@ -1,0 +1,38 @@
+#{form @Auth.authenticate(), class:"form-horizontal", name:"loginForm", role:"form", novalidate:true }
+<div
+    class="form-group {{!loginForm.username.$dirty ? '' : loginForm.username.$valid ? 'has-success' : 'has-error'}}">
+  <label class="col-sm-3 control-label" for="username">&{'login.label.username'}</label>
+
+  <div class="col-sm-5">
+    <input type="email" class="form-control" name="username" required
+           placeholder="&{'login.label.username.placeholder'}" ng-model="user.username">
+  </div>
+  <div class="col-sm-4" ng-show="loginForm.username.$dirty">
+    <span class="control-label" ng-cloak ng-show="loginForm.username.$error.required">&{'validation.required'}</span>
+    <span class="control-label" ng-cloak ng-show="loginForm.username.$error.email">&{'validation.email'}</span>
+  </div>
+</div>
+
+<div
+    class="form-group {{!loginForm.password.$dirty ? '' : loginForm.password.$valid ? 'has-success' : 'has-error'}}">
+  <label class="col-sm-3 control-label" for="password">&{'login.label.password'}</label>
+
+  <div class="col-sm-5">
+    <input type="password" class="form-control" name="password"
+           placeholder="&{'login.label.password'}" ng-model="user.password"
+           required>
+  </div>
+  <div class="col-sm-4" ng-show="loginForm.password.$dirty">
+    <span class="control-label" ng-cloak ng-show="loginForm.password.$error.required">&{'validation.required'}</span>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-sm-offset-3 col-sm-9">
+    <div class="checkbox">
+      <label><input type="checkbox" name="remember" ng-model="user.remember">&{'login.remember.me'}</label>
+    </div>
+  </div>
+</div>
+
+#{/form}

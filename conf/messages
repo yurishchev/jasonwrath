@@ -5,8 +5,13 @@ login.title=Login
 login.label.username=User name
 login.label.username.placeholder=Enter user name (email)
 login.label.password=Password
+login.remember.me=Remember me
 login.button.ok=Sign In
 login.button.cancel=Cancel
+login.error=Wrong user name or password. Please try again!
+
+password.strength=Password is
+validation.invalid.parameters=Please fill in all required fields correctly!
 validation.required=Required
+validation.password.not.equal=Passwords are not equal!
 validation.email=Not valid email
-login.password.strength=Password is

@@ -1,0 +1,8 @@
+Hello ${user.name},
+
+Welcome to JasonWrath!
+
+Please confirm your registration by clicking on @@{Auth.confirmRegistration(user.confirmationUID)}
+
+Sincerely,
+Share-Tour
