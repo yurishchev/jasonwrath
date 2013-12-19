@@ -15,8 +15,13 @@
                 <li><a ng-href="/">HOME</a></li>
                 <li><a ng-href="/about">ABOUT US</a></li>
                 <li><a ng-href="/">CONTACT US</a></li>
-                <li><a ng-href="/">Sign up</a></li>
-                <li><a ng-href="#" ng-click="openLoginDialog()">Sign in</a></li>
+              #{if connected}
+                <li class="navbar-form">${connected.name.escape()}</li>
+                <li><a ng-href="@@{Auth.logout()}">&{'menu.logout'}</a></li>
+              #{/if}
+              #{else}
+                <li><a href="#" ng-click="openLoginDialog()">&{'menu.login'}</a><li>
+              #{/else}
             </ul>
         </div>
     </div>

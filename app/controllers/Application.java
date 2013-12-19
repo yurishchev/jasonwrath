@@ -4,7 +4,7 @@ import play.cache.Cache;
 import play.libs.Images;
 import play.mvc.Controller;
 
-public class Application extends Controller {
+public class Application extends BaseController {
 
     public static void index() {
         countDown();

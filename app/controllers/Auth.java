@@ -49,7 +49,6 @@ public class Auth extends BaseController {
         }
 
         if (!session.contains(COOKIE_USER_ID)) {
-            flash.put(ORIGINAL_URL, getCurrentURL());
             login();
         } else {
             checkIfLoggedInUserCanProceed();
@@ -167,7 +166,10 @@ public class Auth extends BaseController {
      * @see ProviderType
      * @see securesocial.provider.IdentityProvider
      */
-    public static void authenticateSocial(ProviderType type) {
+    public static void authenticateSocial(ProviderType type, String currentUrl) {
+        if (!flash.contains(ORIGINAL_URL) && StringUtils.isNotEmpty(currentUrl)) {
+            flash.put(ORIGINAL_URL, currentUrl);
+        }
         doAuthenticate(type);
     }
 
@@ -202,8 +204,11 @@ public class Auth extends BaseController {
         }
     }
 
-    public static void authenticate(@Required String username, @Required String password, boolean remember)
+    public static void authenticate(@Required String username, @Required String password, boolean remember, String currentUrl)
             throws Throwable {
+        if (!flash.contains(ORIGINAL_URL) && StringUtils.isNotEmpty(currentUrl)) {
+            flash.put(ORIGINAL_URL, currentUrl);
+        }
         User user = User.connect(username, password);
         if (user == null || !user.checkPassword(password)) {
             flash.error(Messages.get("login.error"));
@@ -259,12 +264,10 @@ public class Auth extends BaseController {
         session.remove(COOKIE_AUTH_AVATARURL);
     }
 
-    public static void signup(boolean withSocialData) {
-        if (withSocialData) {
-            flash.put(COOKIE_AUTH_EMAIL, session.get(COOKIE_AUTH_EMAIL));
-            flash.put(COOKIE_AUTH_NAME, session.get(COOKIE_AUTH_NAME));
-            flash.put(COOKIE_AUTH_AVATARURL, session.get(COOKIE_AUTH_AVATARURL));
-        }
+    public static void signup() {
+        flash.put(COOKIE_AUTH_EMAIL, session.get(COOKIE_AUTH_EMAIL));
+        flash.put(COOKIE_AUTH_NAME, session.get(COOKIE_AUTH_NAME));
+        flash.put(COOKIE_AUTH_AVATARURL, session.get(COOKIE_AUTH_AVATARURL));
         String randomID = Codec.UUID();
         renderTemplate("/auth/signup.html", randomID);
     }
@@ -280,7 +283,7 @@ public class Auth extends BaseController {
             Validation.keep();
             params.flash();
             flash.error(Messages.get("validation.invalid.parameters"));
-            signup(false);
+            signup();
             return;
         }
         try {
@@ -299,7 +302,7 @@ public class Auth extends BaseController {
             Validation.keep();
             params.flash();
             flash.error(Messages.get("unique.user.error"));
-            signup(false);
+            signup();
         }
     }
 

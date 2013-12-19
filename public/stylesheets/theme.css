@@ -51,9 +51,6 @@ header {
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
       opacity: .6;
       filter: alpha(opacity=60);
-      -webkit-transition: all .2s linear;
-      -moz-transition: all .2s linear;
-      transition: all .2s linear;
       padding: 10px 15px 10px;
       text-decoration: none; }
       .navbar.navbar-inverse .nav > li > a:hover, .navbar.navbar-inverse .nav > li > a:active {

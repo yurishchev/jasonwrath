@@ -1,15 +1,50 @@
+#{if !session.contains(controllers.Auth.COOKIE_AUTH_ACCESSTOKEN)}
+<div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6 text-center">
+    <p>
+        #{list items: providers, as: 'provider'}
+            #{if provider.type != securesocial.provider.ProviderType.userpass}
+              <a href="@{Auth.authenticateSocial(provider.type.toString().toLowerCase(), request.url)}">
+                <img src="@{'/public/images/providers/'}/${provider.type.toString().toLowerCase()}.png"
+                     title="${provider.type}"/></a>
+            #{/if}
+        #{/list}
+    </p>
+  </div>
+  <div class="col-sm-3"></div>
+</div>
+<div class="row">
+  <div class="col-sm-12 text-center">
+    <h4>OR</h4>
+  </div>
+</div>
+#{/if}
+#{else}
+<div class="row">
+  <div class="alert alert-success col-sm-12 text-center">
+    <p>&{'login.map.social.account', session.get(controllers.Auth.COOKIE_AUTH_PROVIDER)}</p>
+  </div>
+</div>
+#{/else}
+<br/>
+
+<div class="alert alert-danger text-center" ng-cloak ng-show="errors" ng-bind="errors" ng-init="errors='${flash.error}'"></div>
+
 #{form @Auth.authenticate(), class:"form-horizontal", name:"loginForm", role:"form", novalidate:true }
+<input type="hidden" name="currentUrl" value="${request.url}">
 <div
     class="form-group {{!loginForm.username.$dirty ? '' : loginForm.username.$valid ? 'has-success' : 'has-error'}}">
   <label class="col-sm-3 control-label" for="username">&{'login.label.username'}</label>
 
-  <div class="col-sm-5">
-    <input type="email" class="form-control" name="username" required
-           placeholder="&{'login.label.username.placeholder'}" ng-model="user.username">
-  </div>
-  <div class="col-sm-4" ng-show="loginForm.username.$dirty">
-    <span class="control-label" ng-cloak ng-show="loginForm.username.$error.required">&{'validation.required'}</span>
-    <span class="control-label" ng-cloak ng-show="loginForm.username.$error.email">&{'validation.email'}</span>
+  <div class="col-sm-9">
+    <input type="email" class="form-control" name="username" required auto-fill-sync
+           placeholder="&{'login.label.username.placeholder'}" ng-model="user.username" ng-init="user.username='${flash.username}'">
+
+    <div ng-show="loginForm.username.$dirty">
+      <span class="control-label" ng-cloak ng-show="loginForm.username.$error.required">&{'validation.required'}</span>
+      <span class="control-label" ng-cloak ng-show="loginForm.username.$error.email">&{'validation.email'}</span>
+    </div>
   </div>
 </div>
 
@@ -17,13 +52,14 @@
     class="form-group {{!loginForm.password.$dirty ? '' : loginForm.password.$valid ? 'has-success' : 'has-error'}}">
   <label class="col-sm-3 control-label" for="password">&{'login.label.password'}</label>
 
-  <div class="col-sm-5">
-    <input type="password" class="form-control" name="password"
-           placeholder="&{'login.label.password'}" ng-model="user.password"
+  <div class="col-sm-9">
+    <input type="password" class="form-control" name="password" auto-fill-sync
+           placeholder="&{'login.label.password'}" ng-model="user.password" ng-init="user.password='${flash.password}'"
            required>
-  </div>
-  <div class="col-sm-4" ng-show="loginForm.password.$dirty">
-    <span class="control-label" ng-cloak ng-show="loginForm.password.$error.required">&{'validation.required'}</span>
+
+    <div ng-show="loginForm.password.$dirty">
+      <span class="control-label" ng-cloak ng-show="loginForm.password.$error.required">&{'validation.required'}</span>
+    </div>
   </div>
 </div>
 

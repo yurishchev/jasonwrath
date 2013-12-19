@@ -70,6 +70,10 @@
         color: #fff;
         background: none; } }
 
+.navbar-form{
+    color: #FFCC00;
+}
+
 /* Custom fonts */
 @font-face {
     font-family: 'Lato';

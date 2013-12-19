@@ -2,21 +2,22 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header text-center">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>&{'login.title'}</h3>
       </div>
 
       <div class="modal-body">
-        <div class="alert alert-danger" ng-cloak ng-show="errors" ng-bind="errors"></div>
         #{include "auth/loginForm.html" /}
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" ng-disabled="!loginForm.$dirty || !loginForm.$valid" ng-click="login()">
-        &{'login.button.ok'}
+        &{'login.button'}
         </button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">&{'login.button.cancel'}</button>
+        <a type="button" class="btn btn-primary" href="@{Auth.signup()}">
+        &{'register.button'}
+        </a>
       </div>
     </div>
   </div>

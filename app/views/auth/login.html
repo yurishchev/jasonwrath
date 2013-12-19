@@ -2,21 +2,20 @@
 #{set 'title'}&{'menu.login'}#{/set}
 
 <div class="row" ng-controller="LoginCtrl">
-  <div class="col-xs-2 col-sm-3"></div>
-  <div class="col-xs-8 col-sm-6 well well-lg">
+  <div class="col-xs-2 col-sm-4"></div>
+  <div class="col-xs-8 col-sm-4 well well-lg">
     <h3 class="text-center">&{'login.title'}</h3><br/>
 
-    #{if flash.error}
-      <div class="alert alert-danger">${flash.error}</div>
-    #{/if}
     #{include "auth/loginForm.html" /}
 
-    <div class="col-sm-8 text-right">
+    <div class="text-right">
       <button type="button" class="btn btn-primary" ng-disabled="!loginForm.$dirty || !loginForm.$valid" ng-click="login()">
-        &{'login.button.ok'}
+        &{'login.button'}
       </button>
+      <a type="button" class="btn btn-primary" href="@{Auth.signup()}">
+        &{'register.button'}
+      </a>
     </div>
-
   </div>
-  <div class="col-xs-2 col-md-3"></div>
+  <div class="col-xs-2 col-md-4"></div>
 </div>

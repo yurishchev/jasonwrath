@@ -1,17 +1,34 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+menu.login=Sign In
+menu.logout=Logout
+menu.registration=Registration
+
 login.title=Login
 login.label.username=User name
 login.label.username.placeholder=Enter user name (email)
 login.label.password=Password
 login.remember.me=Remember me
-login.button.ok=Sign In
-login.button.cancel=Cancel
+login.button=Sign In
+login.button.close=Close
 login.error=Wrong user name or password. Please try again!
+login.map.social.account=You successfully authenticated via <img src="/public/images/providers/%s.png"/>!<br/>Unfortunately, we couldn't find your user record in our database. Please sign in using system credentials in order to map your record.
+
+registration.title=Register
+registration.label.username=User name
+registration.label.username.placeholder=Enter user name (email)
+registration.label.password=Password
+registration.label.repeatPassword=Repeat Password
+registration.label.name=Name
+registration.label.code=Code
+register.button=Register
 
 password.strength=Password is
+securesocial.authError=An error occurred while logging you in. Please try again.
+
 validation.invalid.parameters=Please fill in all required fields correctly!
 validation.required=Required
 validation.password.not.equal=Passwords are not equal!
 validation.email=Not valid email
+validation.invalid.captcha=Invalid code

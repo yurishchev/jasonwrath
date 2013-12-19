@@ -2,28 +2,29 @@
 #{set 'title'}&{'menu.registration'}#{/set}
 
 <div class="row" ng-controller="RegistrationCtrl">
-  <div class="col-xs-2 col-sm-3"></div>
-  <div class="col-xs-8 col-sm-6 well well-lg">
+  <div class="col-xs-2 col-sm-4"></div>
+  <div class="col-xs-8 col-sm-4 well well-lg">
     <h3 class="text-center">&{'registration.title'}</h3><br/>
 
-  #{if flash.error}
-    <div class="alert alert-danger">${flash.error}</div>
-  #{/if}
+    <div class="alert alert-danger text-center" ng-cloak ng-show="errors" ng-bind="errors"
+         ng-init="errors='${flash.error}'"></div>
 
   #{form @Auth.register(), class:"form-horizontal", name:"registrationForm", role:"form", novalidate:true }
     <div
         class="form-group {{!registrationForm.username.$dirty ? '' : registrationForm.username.$valid ? 'has-success' : 'has-error'}}">
       <label class="col-sm-3 control-label" for="username">&{'registration.label.username'}</label>
 
-      <div class="col-sm-5">
-        <input type="email" autocomplete=off class="form-control" name="username" required
-               placeholder="&{'registration.label.username.placeholder'}" ng-model="user.username" value="${flash.username}">
-      </div>
-      <div class="col-sm-4" ng-show="registrationForm.username.$dirty">
-        <span class="control-label" ng-cloak
-              ng-show="registrationForm.username.$error.required">&{'validation.required'}</span>
-        <span class="control-label" ng-cloak
-              ng-show="registrationForm.username.$error.email">&{'validation.email'}</span>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" name="username" required auto-fill-sync
+               placeholder="&{'registration.label.username.placeholder'}" ng-model="user.username"
+               ng-init="user.username='${flash.username}'">
+
+        <div ng-show="registrationForm.username.$dirty">
+          <span class="control-label" ng-cloak
+                ng-show="registrationForm.username.$error.required">&{'validation.required'}</span>
+          <span class="control-label" ng-cloak
+                ng-show="registrationForm.username.$error.email">&{'validation.email'}</span>
+        </div>
       </div>
     </div>
 
@@ -31,17 +32,19 @@
         class="form-group {{!registrationForm.password.$dirty ? '' : registrationForm.password.$valid ? 'has-success' : 'has-error'}}">
       <label class="col-sm-3 control-label" for="password">&{'registration.label.password'}</label>
 
-      <div class="col-sm-5">
-        <input type="password" class="form-control" name="password" autocomplete=off
-               placeholder="&{'registration.label.password'}" ng-model="user.password" value="${flash.password}"
-               password-strength required>
-      </div>
-      <div class="col-sm-4" ng-show="registrationForm.password.$dirty">
-        <span class="control-label" ng-cloak
-              ng-show="registrationForm.password.$error.required">&{'validation.required'}</span>
-        <div ng-class="pwdStrength" class="strength"
-             ng-cloak ng-show="!registrationForm.password.$error.required">
-        &{'password.strength'} {{pwdStrength}}
+      <div class="col-sm-9">
+        <input type="password" class="form-control" name="password" auto-fill-sync
+               placeholder="&{'registration.label.password'}" ng-model="user.password"
+               ng-init="user.password='${flash.password}'" password-strength required>
+
+        <div ng-show="registrationForm.password.$dirty">
+          <span class="control-label" ng-cloak
+                ng-show="registrationForm.password.$error.required">&{'validation.required'}</span>
+
+          <div ng-class="pwdStrength" class="strength"
+               ng-cloak ng-show="!registrationForm.password.$error.required">
+          &{'password.strength'} {{pwdStrength}}
+          </div>
         </div>
       </div>
     </div>
@@ -50,55 +53,59 @@
         class="form-group {{!registrationForm.repeatPassword.$dirty ? '' : registrationForm.repeatPassword.$valid ? 'has-success' : 'has-error'}}">
       <label class="col-sm-3 control-label" for="repeatPassword">&{'registration.label.repeatPassword'}</label>
 
-      <div class="col-sm-5">
-        <input type="password" class="form-control" name="repeatPassword"
-               placeholder="&{'registration.label.password'}" ng-model="user.repeatPassword" value="${flash.repeatPassword}"
-               repeat-password="password" required>
-      </div>
-      <div class="col-sm-4" ng-show="registrationForm.repeatPassword.$dirty">
-        <span class="control-label" ng-cloak
-              ng-show="registrationForm.repeatPassword.$error.required">&{'validation.required'}</span>
-        <span class="control-label" ng-cloak
-              ng-show="!registrationForm.repeatPassword.$error.required && registrationForm.repeatPassword.$error.repeatPassword">
-        &{'validation.password.not.equal'}
-        </span>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" name="repeatPassword" auto-fill-sync
+               placeholder="&{'registration.label.password'}" ng-model="user.repeatPassword"
+               ng-init="user.repeatPassword='${flash.repeatPassword}'" repeat-password="password" required>
+
+        <div ng-show="registrationForm.repeatPassword.$dirty">
+          <span class="control-label" ng-cloak
+                ng-show="registrationForm.repeatPassword.$error.required">&{'validation.required'}</span>
+          <span class="control-label" ng-cloak
+                ng-show="!registrationForm.repeatPassword.$error.required && registrationForm.repeatPassword.$error.repeatPassword">
+          &{'validation.password.not.equal'}
+          </span>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
       <label class="col-sm-3 control-label" for="name">&{'registration.label.name'}</label>
 
-      <div class="col-sm-5">
-        <input type="text" class="form-control" name="name"
-               placeholder="&{'registration.label.name.placeholder'}" ng-model="user.name" value="${flash.name}">
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="name" auto-fill-sync
+               placeholder="&{'registration.label.name'}" ng-model="user.name"
+               ng-init="user.name='${flash.name}'">
       </div>
     </div>
 
-    <div class="form-group {{!registrationForm.code.$dirty ? '' : registrationForm.code.$valid ? 'has-success' : 'has-error'}}">
+    <div
+        class="form-group {{!registrationForm.code.$dirty ? '' : registrationForm.code.$valid ? 'has-success' : 'has-error'}}">
       <label class="col-sm-3 control-label" for="code">&{'registration.label.code'}</label>
 
       <div class="col-sm-3">
-        <input type="text" class="form-control" name="code"
+        <input type="text" class="form-control" name="code" auto-fill-sync
                placeholder="&{'registration.label.code'}" ng-model="user.code"
                required>
         <input type="hidden" name="randomID" value="${randomID}"/>
+        <div>
+          <span class="control-label">#{error 'code' /}</span>
+        </div>
       </div>
-      <div class="col-sm-2">
-        <img src="@{Application.captcha(randomID)}" class="img-thumbnail"/>
-      </div>
-      <div class="col-sm-4">
-        <span class="control-label">#{error 'code' /}</span>
+      <div class="col-sm-6">
+        <img src="@{Application.captcha(randomID)}" class="img-responsive" style="height:40px"/>
       </div>
     </div>
 
   #{/form}
 
-    <div class="col-sm-8 text-right">
-      <button type="button" class="btn btn-primary" ng-disabled="!registrationForm.$dirty || !registrationForm.$valid" ng-click="register()">
-      &{'registration.button.ok'}
+    <div class="col-sm-12 text-right">
+      <button type="button" class="btn btn-primary" ng-disabled="!registrationForm.$dirty || !registrationForm.$valid"
+              ng-click="register()">
+      &{'register.button'}
       </button>
     </div>
 
   </div>
-  <div class="col-xs-2 col-md-3"></div>
+  <div class="col-xs-2 col-md-4"></div>
 </div>
