@@ -1,0 +1,54 @@
+#{extends 'mainTemplate.html' /}
+#{set 'title'}&{'menu.profile'}#{/set}
+
+<div class="row" ng-controller="ProfileCtrl">
+  <div class="col-xs-2 col-sm-4"></div>
+  <div class="col-xs-8 col-sm-4 well well-lg">
+    <h3 class="text-center">&{'profile.title'}</h3><br/>
+
+    <div class="alert alert-warning col-sm-12">
+      <span>&{'profile.email.not.confirmed'}</span>
+      <div class="text-right"><button type="button" class="btn btn-sm btn-success" ng-click="sendConfirmation()">
+      &{'button.send.email'}
+      </button></div>
+    </div>
+
+    <div class="alert alert-danger text-center" ng-cloak ng-show="errors" ng-bind="errors"
+         ng-init="errors='${flash.error}'"></div>
+
+    #{form @UserController.saveProfile(), method:'POST', class:"form-horizontal", name:"profileForm", role:"form", novalidate:true }
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="username">&{'profile.label.username'}</label>
+
+      <div class="col-sm-9">
+        <p class="form-control-static">${user?.email}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="name">&{'profile.label.name'}</label>
+
+      <div class="col-sm-9">
+        <p class="form-control-static" ng-model="user.name" ng-init="user.name='${user?.name}'"
+           ng-cloak ng-show="!editFormEnabled" ng-bind="user.name"></p>
+        <input type="text" class="form-control" name="name" auto-fill-sync
+               placeholder="&{'profile.label.name'}" ng-model="user.name"
+               ng-init="user.name='${user?.name}'" ng-maxlength="50" maxlength="50"
+               ng-cloak ng-show="editFormEnabled">
+      </div>
+    </div>
+    #{/form}
+
+    <div class="col-sm-12 text-right">
+      <button type="button" class="btn btn-primary" ng-cloak ng-show="!editFormEnabled" ng-click="enableForm()">
+      &{'button.edit'}
+      </button>
+      <button type="button" class="btn btn-primary" ng-cloak ng-show="editFormEnabled" ng-submit="saveProfile()"
+              ng-disabled="!profileForm.$dirty || !profileForm.$valid" ng-click="saveProfile()">
+      &{'button.save'}
+      </button>
+    </div>
+
+  </div>
+  <div class="col-xs-2 col-md-4"></div>
+</div>

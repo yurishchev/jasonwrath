@@ -87,16 +87,15 @@ public class Auth extends BaseController {
             redirect(ROOT);
             return;
         }
-        if (user.getConfirmationUID() != null) {
-            notConfirmedRegistration();
-        }
         checkBlocked(user);
+        if (user.getConfirmationUID() != null && !"/auth/sendConfirmationEmail".equals(request.url)) {  // TODO
+            redirect("/profile");
+        }
     }
 
     private static void redirectIfNotConnected() {
         if (!isConnected()) { // f.e. session timeout, etc.
             flash.put(ORIGINAL_URL, getCurrentURL());
-            flash.error(Messages.get("not.logged_in.user"));
             redirect(ROOT);
         }
     }
@@ -319,21 +318,15 @@ public class Auth extends BaseController {
         redirect(ROOT);
     }
 
-    public static void notConfirmedRegistration() {
-        renderTemplate("/auth/notConfirmedRegistration.html");
-        render();
-    }
-
     public static void sendConfirmationEmail() throws Exception {
+        JsonObject obj = new JsonObject();
         User user = connectedUser();
         if (user == null) {
-            flash.error(Messages.get("not.logged_in.user"));
-            Application.index();
+            obj.addProperty("errors", Messages.get("not.logged_in.user"));
         } else {
             Notifier.welcome(user);
-            flash.success(Messages.get("confirmation.text"));
-            notConfirmedRegistration();
         }
+        renderJSON(obj);
     }
 
     public static void forgotPassword() {

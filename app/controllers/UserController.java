@@ -1,7 +1,33 @@
 package controllers;
 
-public class UserController {
+import com.google.gson.JsonObject;
+import jasonwrath.utils.AllowGuest;
+import models.User;
+import play.data.validation.Required;
+import play.data.validation.Valid;
+import play.data.validation.Validation;
+import play.i18n.Messages;
+import play.mvc.With;
+
+public class UserController extends BaseController {
+
     public static void profile() {
-        //To change body of created methods use File | Settings | File Templates.
+        User user = Auth.connectedUser();
+        render(user);
     }
+
+    public static void saveProfile(@Required String name) {
+        User user = Auth.connectedUser();
+        JsonObject obj = new JsonObject();
+        if (Validation.hasErrors()) {
+            Validation.keep();
+            params.flash();
+            obj.addProperty("errors", Messages.get("login.error"));
+        } else {
+            user.setName(name);
+            user.save();
+        }
+        renderJSON(obj);
+    }
+
 }

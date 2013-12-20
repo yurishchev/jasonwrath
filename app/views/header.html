@@ -16,7 +16,8 @@
                 <li><a ng-href="/about">ABOUT US</a></li>
                 <li><a ng-href="/">CONTACT US</a></li>
               #{if connected}
-                <li class="navbar-form">${connected.name.escape()}</li>
+                <li><a ng-href="@@{UserController.profile()}" ng-model="connectedUser.name"
+                       ng-init="connectedUser.name='${connected.name.escape()}'" ng-bind="connectedUser.name"></a></li>
                 <li><a ng-href="@@{Auth.logout()}">&{'menu.logout'}</a></li>
               #{/if}
               #{else}

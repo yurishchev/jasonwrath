@@ -2,9 +2,14 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
+# General pages
 GET     /                                       Application.countDown
 GET     /about                                  Application.about
+GET     /captcha                                Application.captcha
+
+# User pages
+GET     /profile                                UserController.profile
+POST    /profile                                UserController.saveProfile
 
 # Import Security routes
 GET     /auth/login                             Auth.login
@@ -14,7 +19,7 @@ POST    /auth/loginDialog                       Auth.authenticateJson
 GET     /auth/logout                            Auth.logout
 GET     /auth/signup                            Auth.signup
 POST    /auth/register                          Auth.register
-GET     /auth/confirmRegistration               Auth.notConfirmedRegistration
+POST    /auth/confirmRegistration               Auth.confirmRegistration
 GET     /auth/sendConfirmationEmail             Auth.sendConfirmationEmail
 GET     /auth/forgotPassword                    Auth.forgotPassword
 POST    /auth/restorePassword                   Auth.restorePassword
@@ -29,4 +34,4 @@ GET     /favicon.ico                            404
 GET     /public/                                staticDir:public
 
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+#*       /{controller}/{action}                  {controller}.{action}

@@ -4,14 +4,13 @@
 menu.login=Sign In
 menu.logout=Logout
 menu.registration=Registration
+menu.profile=Profile
 
 login.title=Login
 login.label.username=User name
 login.label.username.placeholder=Enter user name (email)
 login.label.password=Password
 login.remember.me=Remember me
-login.button=Sign In
-login.button.close=Close
 login.error=Wrong user name or password. Please try again!
 login.map.social.account=You successfully authenticated via <img src="/public/images/providers/%s.png"/>!<br/>Unfortunately, we couldn't find your user record in our database. Please sign in using system credentials in order to map your record.
 
@@ -22,9 +21,23 @@ registration.label.password=Password
 registration.label.repeatPassword=Repeat Password
 registration.label.name=Name
 registration.label.code=Code
-register.button=Register
+
+profile.title=User Profile
+profile.label.username=Email
+profile.label.name=Name
+profile.email.not.confirmed=Warning! Your account is not yet activated.<br>Click on the link in confirmation email we've sent you to activate it.
+
+
+button.login=Sign In
+button.register=Register
+button.edit=Edit
+button.save=Save
+button.close=Close
+button.send.email=Resend confirmation
+
 
 password.strength=Password is
+email.sent=Email successfully sent
 securesocial.authError=An error occurred while logging you in. Please try again.
 
 validation.invalid.parameters=Please fill in all required fields correctly!

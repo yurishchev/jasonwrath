@@ -4,8 +4,9 @@ var controllers = angular.module('jwApp.controllers',
     ['jwApp.directives', 'jwApp.services']);
 
 
-controllers.controller('HeaderCtrl', ['$scope',
-    function ($scope) {
+controllers.controller('HeaderCtrl', ['$scope', 'connectedUser',
+    function ($scope, connectedUser) {
+        $scope.connectedUser = connectedUser.getObject();
         $scope.openLoginDialog = function () {
             $('#loginModal').modal('show');
         };
@@ -15,6 +16,7 @@ controllers.controller('HeaderCtrl', ['$scope',
 controllers.controller('LoginDialogCtrl', ['$scope', '$http',
     function ($scope, $http) {
         $scope.master = {};
+        $scope.errors = {};
 
         $scope.login = function () {
             if ($scope.loginForm.$invalid) {
@@ -79,5 +81,45 @@ controllers.controller('CountDownCtrl', ['$scope',
 
 controllers.controller('AboutCtrl', ['$scope',
     function ($scope) {
+    }]);
+
+
+controllers.controller('ProfileCtrl', ['$scope', '$http', 'connectedUser',
+    function ($scope, $http, connectedUser) {
+        $scope.editFormEnabled = false;
+
+        $scope.enableForm = function () {
+            $scope.editFormEnabled = true;
+        };
+
+        $scope.saveProfile = function () {
+            if ($scope.profileForm.$invalid) {
+                return;
+            }
+            $http.post($('form[name=profileForm]').attr('action'), $.param($scope.user)).
+                success(function (data, status) {
+                    if (data.members && data.members.errors) {
+                        $scope.errors = data.members.errors;
+                    } else {
+                        $scope.editFormEnabled = false;
+                        connectedUser.setName($scope.user.name);
+                    }
+                }).
+                error(function (data, status) {
+                    $scope.errors = data || "Request failed";
+                });
+        };
+
+        $scope.sendConfirmation = function () {
+            $http.get('/auth/sendConfirmationEmail').
+                success(function (data, status) {
+                    if (data.members && data.members.errors) {
+                        $scope.errors = data.members.errors;
+                    }
+                }).
+                error(function (data, status) {
+                    $scope.errors = data || "Request failed";
+                });
+        };
     }]);
 

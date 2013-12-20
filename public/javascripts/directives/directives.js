@@ -2,32 +2,6 @@
 
 var directives = angular.module('jwApp.directives', []);
 
-directives.directive('butterbar', ['$rootScope',
-    function ($rootScope) {
-        return {
-            link: function (scope, element, attrs) {
-                element.addClass('hide');
-
-                $rootScope.$on('$routeChangeStart', function () {
-                    element.removeClass('hide');
-                });
-
-                $rootScope.$on('$routeChangeSuccess', function () {
-                    element.addClass('hide');
-                });
-            }
-        };
-    }]);
-
-directives.directive('focus',
-    function () {
-        return {
-            link: function (scope, element, attrs) {
-                element[0].focus();
-            }
-        };
-    });
-
 directives.directive('passwordStrength', ['$log',
     function () {
         return {
@@ -91,3 +65,21 @@ directives.directive('autoFillSync', ['$timeout',
             }
         }
     }]);
+
+directives.directive('buttonAnimate', function() { // TODO
+    return {
+        restrict: 'A',
+        replace:true,
+        link: function(scope, elem, attrs) {
+            elem.bind("click", function(){
+                if(elem.val() == "start") {
+                    elem.val("stop");
+                }
+                else {
+                    elem.val("start");
+                }
+
+            })
+        }
+    }
+});
