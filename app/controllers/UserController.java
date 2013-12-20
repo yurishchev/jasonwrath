@@ -1,13 +1,10 @@
 package controllers;
 
 import com.google.gson.JsonObject;
-import jasonwrath.utils.AllowGuest;
 import models.User;
 import play.data.validation.Required;
-import play.data.validation.Valid;
 import play.data.validation.Validation;
 import play.i18n.Messages;
-import play.mvc.With;
 
 public class UserController extends BaseController {
 

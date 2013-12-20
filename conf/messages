@@ -12,7 +12,7 @@ login.label.username.placeholder=Enter user name (email)
 login.label.password=Password
 login.remember.me=Remember me
 login.error=Wrong user name or password. Please try again!
-login.map.social.account=You successfully authenticated via <img src="/public/images/providers/%s.png"/>!<br/>Unfortunately, we couldn't find your user record in our database. Please sign in using system credentials in order to map your record.
+login.map.social.account=You successfully authenticated via <img src="/public/images/providers/%s.png"/>!<br/>Unfortunately, we couldn't find your user record in our database. Please sign in using system credentials in order to map your record or choose another social provider.
 
 registration.title=Register
 registration.label.username=User name

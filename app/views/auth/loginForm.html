@@ -1,15 +1,21 @@
-#{if !session.contains(controllers.Auth.COOKIE_AUTH_ACCESSTOKEN)}
+#{if session.contains(controllers.Auth.COOKIE_AUTH_ACCESSTOKEN)}
+<div class="row">
+  <div class="alert alert-success col-sm-12 text-center">
+    <p>&{'login.map.social.account', session.get(controllers.Auth.COOKIE_AUTH_PROVIDER)}</p>
+  </div>
+</div>
+#{/if}
 <div class="row">
   <div class="col-sm-3"></div>
   <div class="col-sm-6 text-center">
     <p>
-        #{list items: providers, as: 'provider'}
-            #{if provider.type != securesocial.provider.ProviderType.userpass}
-              <a href="@{Auth.authenticateSocial(provider.type.toString().toLowerCase(), request.url)}">
-                <img src="@{'/public/images/providers/'}/${provider.type.toString().toLowerCase()}.png"
-                     title="${provider.type}"/></a>
-            #{/if}
-        #{/list}
+    #{list items: providers, as: 'provider'}
+        #{if provider.type != securesocial.provider.ProviderType.userpass}
+          <a href="@{Auth.authenticateSocial(provider.type.toString().toLowerCase(), request.url)}">
+            <img src="@{'/public/images/providers/'}/${provider.type.toString().toLowerCase()}.png"
+                 title="${provider.type}"/></a>
+        #{/if}
+    #{/list}
     </p>
   </div>
   <div class="col-sm-3"></div>
@@ -19,14 +25,6 @@
     <h4>OR</h4>
   </div>
 </div>
-#{/if}
-#{else}
-<div class="row">
-  <div class="alert alert-success col-sm-12 text-center">
-    <p>&{'login.map.social.account', session.get(controllers.Auth.COOKIE_AUTH_PROVIDER)}</p>
-  </div>
-</div>
-#{/else}
 <br/>
 
 <div class="alert alert-danger text-center" ng-cloak ng-show="errors" ng-bind="errors" ng-init="errors='${flash.error}'"></div>
