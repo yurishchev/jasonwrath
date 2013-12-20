@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.util.*;
 
 @Entity
-@Table(name = "friend_group")
+@Table
 public class FriendGroup extends Model {
 
     @Required

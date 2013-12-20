@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "social_account")
+@Table
 public class SocialAccount extends Model {
     @Required
     @ManyToOne
